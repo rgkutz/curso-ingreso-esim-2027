@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taller Clase 2 · Lógica y Decisiones Interactivas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f3ec;
+      --surface: #fffdf9;
+      --surface-2: #efeae0;
+      --ink: #171717;
+      --muted: #5c5952;
+      --line: #171717;
+      --pastel-pink: #f6b8c4;
+      --pastel-peach: #fbc89b;
+      --pastel-yellow: #f7e38c;
+      --pastel-green: #bfe3b4;
+      --pastel-cyan: #aee4ea;
+      --pastel-blue: #b8cae6;
+      --pastel-lavender: #d2bce8;
+      --shadow: 4px 4px 0px #171717;
+      --shadow-sm: 2px 2px 0px #171717;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image: radial-gradient(rgba(23, 23, 23, 0.08) 1px, transparent 1px);
+      background-size: 22px 22px;
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      max-width: 1240px;
+      margin: 20px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: var(--pastel-yellow);
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .brand h1 em {
+      font-style: italic;
+    }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .mode-switch input {
+      accent-color: var(--ink);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .tabs {
+      max-width: 1240px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 1020px) {
+      .tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 580px) {
+      .tabs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tab-btn {
+      text-align: left;
+      background: var(--surface);
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tab-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: var(--shadow);
+    }
+
+    .tab-btn.active {
+      background: var(--pastel-cyan);
+      box-shadow: var(--shadow);
+      transform: translate(-1px, -1px);
+    }
+
+    .tab-kicker {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: 0.78;
+    }
+
+    .tab-title {
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .consigna-wrap {
+      max-width: 1240px;
+      margin: 16px auto 0;
+      padding: 0 20px;
+    }
+
+    .consigna-box {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .consigna-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .consigna-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--pastel-peach);
+      border: 1.5px solid var(--line);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .consigna-title {
+      margin: 4px 0 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .consigna-text {
+      margin: 0;
+      font-size: 14.5px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    .consigna-text ul {
+      margin: 6px 0 0;
+      padding-left: 20px;
+    }
+
+    .workspace {
+      max-width: 1240px;
+      margin: 16px auto 44px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 380px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1.5px solid var(--line);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--surface-2);
+    }
+
+    .prompt-question {
+      font-size: 16.5px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 8px 0 14px;
+    }
+
+    .vote-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .vote-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--bg);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: transform 0.1s ease, background 0.12s ease;
+    }
+
+    .vote-btn:hover {
+      background: var(--pastel-yellow);
+      transform: translateX(2px);
+    }
+
+    .vote-count {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      padding: 2px 8px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .control-group {
+      border-top: 1.5px dashed rgba(23, 23, 23, 0.25);
+      padding-top: 14px;
+      margin-top: 10px;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    input[type="number"] {
+      width: 110px;
+      padding: 10px 12px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1.5px solid var(--line);
+      background: var(--surface-2);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .chip:hover {
+      background: var(--pastel-green);
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      border-radius: 11px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--pastel-green);
+      color: var(--ink);
+      transition: transform 0.1s ease;
+    }
+
+    .btn:hover {
+      transform: translate(-1px, -1px);
+    }
+
+    .btn.secondary {
+      background: var(--surface);
+    }
+
+    .btn.accent {
+      background: var(--pastel-lavender);
+    }
+
+    .flow-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .flow-panel {
+      background: var(--bg);
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .flow-panel-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .node {
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--surface);
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .node code, .status-banner code, .trace-table code, .consigna-text code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+    }
+
+    .node.active {
+      background: var(--pastel-yellow);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .node.hit-ok {
+      background: var(--pastel-green);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .node.hit-bad {
+      background: var(--pastel-pink);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .node.hit-warn {
+      background: var(--pastel-peach);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .arrow-down {
+      text-align: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      line-height: 1;
+    }
+
+    .branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .status-banner {
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: var(--pastel-lavender);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .teacher-note {
+      margin-top: 12px;
+      border: 2px dashed var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: var(--pastel-yellow);
+      font-size: 13px;
+      line-height: 1.45;
+      display: none;
+    }
+
+    .teacher-note.visible {
+      display: block;
+    }
+
+    .vars-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .var-box {
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--bg);
+    }
+
+    .var-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .var-val {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .trace-table-wrap {
+      max-height: 250px;
+      overflow: auto;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(23, 23, 23, 0.14);
+      text-align: left;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--surface-2);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+    }
+
+    tr.current-row {
+      background: var(--pastel-cyan);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-badge">CLASE 2 · INGRESO</span>
+      <h1>Decisiones &amp; <em>Bucles</em> en Vivo</h1>
+    </div>
+    <label class="mode-switch">
+      <input type="checkbox" id="teacherToggle" />
+      <span>Modo docente (pistas y trampas)</span>
+    </label>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Desafíos interactivos de la clase">
+    <button class="tab-btn active" data-tab="zero" role="tab" aria-selected="true">
+      <span class="tab-kicker">01 · Condicionales</span>
+      <span class="tab-title">La trampa del 0</span>
+    </button>
+    <button class="tab-btn" data-tab="cycling" role="tab" aria-selected="false">
+      <span class="tab-kicker">02 · Condicional Múltiple</span>
+      <span class="tab-title">Carrera de ciclismo</span>
+    </button>
+    <button class="tab-btn" data-tab="sumLoop" role="tab" aria-selected="false">
+      <span class="tab-kicker">03 · Bucle Para</span>
+      <span class="tab-title">Suma acumulada 1..N</span>
+    </button>
+    <button class="tab-btn" data-tab="multLoop" role="tab" aria-selected="false">
+      <span class="tab-kicker">04 · Bucle Para</span>
+      <span class="tab-title">Tabla de multiplicar (0..10)</span>
+    </button>
+  </nav>
+
+  <!-- CONSIGNA VISIBLE ARRIBA PARA LEER Y ACOMPAÑAR LA ACTIVIDAD -->
+  <section class="consigna-wrap" aria-live="polite">
+    <div class="consigna-box" id="consignaBox"></div>
+  </section>
+
+  <main class="workspace">
+    <!-- PANEL IZQUIERDO: VOTACIÓN Y CONTROLES -->
+    <section class="card" id="controlPanel"></section>
+
+    <!-- PANEL DERECHO: VISUALIZACIÓN INTERACTIVA -->
+    <section class="card flow-stage" id="visualPanel"></section>
+  </main>
+
+  <script type="module">
+    import * as ts from "https://esm.sh/typescript@5.7.3";
+
+    const tsCode = /* ts */ `
+      type TabId = "zero" | "cycling" | "sumLoop" | "multLoop";
+
+      interface VoteOption {
+        id: string;
+        label: string;
+        votes: number;
+      }
+
+      interface SumStep {
+        iter: number;
+        cont: number;
+        prevSum: number;
+        nextSum: number;
+      }
+
+      interface MultStep {
+        iter: number;
+        cont: number;
+        a: number;
+        lineText: string;
+        product: number;
+      }
+
+      interface AppState {
+        activeTab: TabId;
+        teacherMode: boolean;
+        zeroInput: number;
+        zeroVotes: VoteOption[];
+        ageInput: number;
+        ageVotes: VoteOption[];
+        sumN: number;
+        sumSteps: SumStep[];
+        sumCursor: number;
+        sumAuto: boolean;
+        multA: number;
+        multSteps: MultStep[];
+        multCursor: number;
+        multAuto: boolean;
+      }
+
+      const state: AppState = {
+        activeTab: "zero",
+        teacherMode: false,
+        zeroInput: 0,
+        zeroVotes: [
+          { id: "A", label: "Dice 'es positivo'", votes: 0 },
+          { id: "B", label: "Dice 'es negativo' (¡ojo al error!)", votes: 0 },
+          { id: "C", label: "Necesita otra rama para el 0", votes: 0 }
+        ],
+        ageInput: 18,
+        ageVotes: [
+          { id: "A", label: "Junior (>12 y <18)", votes: 0 },
+          { id: "B", label: "Élite (19 a 30)", votes: 0 },
+          { id: "C", label: "¡Queda afuera / caso borde!", votes: 0 }
+        ],
+        sumN: 5,
+        sumSteps: [],
+        sumCursor: -1,
+        sumAuto: false,
+        multA: 7,
+        multSteps: [],
+        multCursor: -1,
+        multAuto: false
+      };
+
+      let timerId: number | null = null;
+
+      function stopTimers(): void {
+        state.sumAuto = false;
+        state.multAuto = false;
+        if (timerId !== null) {
+          window.clearInterval(timerId);
+          timerId = null;
+        }
+      }
+
+      function buildSumSteps(n: number): SumStep[] {
+        const cleanN = Math.max(1, Math.min(15, Math.trunc(n || 1)));
+        const steps: SumStep[] = [];
+        let acc = 0;
+        for (let cont = 1; cont <= cleanN; cont++) {
+          const prevSum = acc;
+          acc = prevSum + cont;
+          steps.push({ iter: cont, cont, prevSum, nextSum: acc });
+        }
+        return steps;
+      }
+
+      function buildMultSteps(a: number): MultStep[] {
+        const cleanA = Math.trunc(a || 0);
+        const steps: MultStep[] = [];
+        for (let cont = 0; cont <= 10; cont++) {
+          const product = cleanA * cont;
+          steps.push({
+            iter: cont + 1,
+            cont,
+            a: cleanA,
+            lineText: \`\${cleanA} x \${cont} = \${product}\`,
+            product
+          });
+        }
+        return steps;
+      }
+
+      function resetSum(n: number): void {
+        stopTimers();
+        state.sumN = Math.max(1, Math.min(15, Math.trunc(n || 1)));
+        state.sumSteps = buildSumSteps(state.sumN);
+        state.sumCursor = -1;
+      }
+
+      function resetMult(a: number): void {
+        stopTimers();
+        state.multA = Math.trunc(a || 0);
+        state.multSteps = buildMultSteps(state.multA);
+        state.multCursor = -1;
+      }
+
+      function classifyCycling(age: number): { category: string; tone: "ok" | "warn"; detail: string } {
+        if (age > 12 && age < 18) {
+          return {
+            category: "Junior",
+            tone: "ok",
+            detail: "Cumple edad > 12 y edad < 18."
+          };
+        }
+        if (age >= 19 && age <= 30) {
+          return {
+            category: "Élite",
+            tone: "ok",
+            detail: "Está entre 19 y 30."
+          };
+        }
+        if (age > 30) {
+          return {
+            category: "Master",
+            tone: "ok",
+            detail: "Supera los 30 años."
+          };
+        }
+        return {
+          category: "Caso borde / fuera de los rangos definidos",
+          tone: "warn",
+          detail: "Probá con 12, 18 o un valor menor: el enunciado deja huecos en los extremos."
+        };
+      }
+
+      resetSum(state.sumN);
+      resetMult(state.multA);
+
+      function renderConsigna(): void {
+        const box = document.getElementById("consignaBox")!;
+        if (state.activeTab === "zero") {
+          box.innerHTML = \`
+            <div class="consigna-top">
+              <span class="consigna-tag">CONSIGNA DE CLASE · POSITIVO / NEGATIVO Y EL CERO</span>
+              <span class="pill">Condicional simple / doble vs. múltiple</span>
+            </div>
+            <h2 class="consigna-title">¿Qué ocurre si ingresamos cero en un algoritmo que evalúa si un número es positivo o negativo?</h2>
+            <p class="consigna-text">
+              Partiendo del diagrama que solicita ingresar un número e informa si es positivo o negativo (<code>num1 &gt; 0</code>), analicen qué sucede cuando se ingresa <strong>0</strong> y resuelvan el caso aplicando <strong>condicional múltiple</strong>.
+            </p>
+          \`;
+        } else if (state.activeTab === "cycling") {
+          box.innerHTML = \`
+            <div class="consigna-top">
+              <span class="consigna-tag">CONSIGNA DE CLASE · CARRERA DE CICLISMO</span>
+              <span class="pill">Condicional múltiple y condiciones</span>
+            </div>
+            <h2 class="consigna-title">Clasificar corredores de ciclismo según su edad</h2>
+            <p class="consigna-text">
+              Solicitar al usuario su nombre y edad, clasificarlo e informar su nombre y categoría:
+              <ul>
+                <li><strong>Junior:</strong> si la edad es mayor a 12 y menor a 18 años.</li>
+                <li><strong>Élite:</strong> si la edad está entre 19 y 30 años.</li>
+                <li><strong>Master:</strong> si la edad es mayor a 30 años.</li>
+              </ul>
+            </p>
+          \`;
+        } else if (state.activeTab === "sumLoop") {
+          box.innerHTML = \`
+            <div class="consigna-top">
+              <span class="consigna-tag">CONSIGNA DE CLASE · BUCLES CON CONTADOR</span>
+              <span class="pill">Estructura repetitiva Para</span>
+            </div>
+            <h2 class="consigna-title">Sumar números del 1 al 10 (y hasta un número N) con un bucle Para</h2>
+            <p class="consigna-text">
+              Utilizando un bucle <strong>Para</strong> con una variable <strong>contador</strong>, acumular los números en cada <strong>iteración</strong> y, al finalizar el recorrido finito, informar el resultado total.
+            </p>
+          \`;
+        } else {
+          box.innerHTML = \`
+            <div class="consigna-top">
+              <span class="consigna-tag">CONSIGNA DE CLASE · TABLA DE MULTIPLICAR</span>
+              <span class="pill">cont desde 0 hasta 10</span>
+            </div>
+            <h2 class="consigna-title">Mostrar la tabla de multiplicar de un número ingresado (a)</h2>
+            <p class="consigna-text">
+              Solicitar un número <code>a</code> y recorrer <code>cont</code> desde <strong>0 hasta 10</strong> (incrementando de a 1 en cada iteración) para mostrar <code>a x cont = a * cont</code>.
+            </p>
+          \`;
+        }
+      }
+
+      function renderVotesHtml(votes: VoteOption[], groupKey: string): string {
+        return \`
+          <div class="vote-grid">
+            \${votes.map((v) => \`
+              <button type="button" class="vote-btn" data-vote-group="\${groupKey}" data-vote-id="\${v.id}">
+                <span><strong>\${v.id}.</strong> \${v.label}</span>
+                <span class="vote-count">\${v.votes} voto\${v.votes === 1 ? "" : "s"}</span>
+              </button>
+            \`).join("")}
+          </div>
+        \`;
+      }
+
+      function renderZeroChallenge(ctrl: HTMLElement, vis: HTMLElement): void {
+        const n = state.zeroInput;
+        const isPosSimple = n > 0;
+        const multiBranch = n > 0 ? "POS" : n < 0 ? "NEG" : "ZERO";
+
+        ctrl.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">VOTACIÓN EN CURSO</span>
+            <button type="button" class="chip" id="resetVotesBtn">Reiniciar votos</button>
+          </div>
+          <p class="prompt-question">¿Qué votan los chicos antes de probar el número?</p>
+          \${renderVotesHtml(state.zeroVotes, "zero")}
+
+          <div class="control-group">
+            <label class="control-label" for="zeroNumInput">Valor de entrada (num1)</label>
+            <div class="input-row">
+              <input type="number" id="zeroNumInput" value="\${n}" step="1" />
+              <button type="button" class="btn" id="evalZeroBtn">Evaluar paso</button>
+            </div>
+            <div class="quick-chips">
+              <button type="button" class="chip" data-set-zero="0">Probar 0 (trampa)</button>
+              <button type="button" class="chip" data-set-zero="8">Probar +8</button>
+              <button type="button" class="chip" data-set-zero="-5">Probar -5</button>
+            </div>
+          </div>
+
+          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
+            <strong>Pista docente:</strong> Con <code>num1 &gt; 0</code>, el <code>0</code> da <strong>Falso</strong> y entra por el lado falso como si fuera negativo. Un <strong>condicional múltiple</strong> separa claramente <code>&gt; 0</code>, <code>&lt; 0</code> y <code>= 0</code>.
+          </div>
+        \`;
+
+        vis.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">COMPARACIÓN DE FLUJO</span>
+            <span class="pill">Entrada: num1 = \${n}</span>
+          </div>
+
+          <div class="flow-grid">
+            <div class="flow-panel">
+              <div class="flow-panel-title">
+                <span>1. Condicional Doble</span>
+                <span>num1 &gt; 0</span>
+              </div>
+              <div class="node active">Leer <code>num1</code> → <strong>\${n}</strong></div>
+              <div class="arrow-down">↓</div>
+              <div class="node \${isPosSimple ? "hit-ok" : "hit-bad"}">
+                ¿<code>\${n} &gt; 0</code>? → <strong>\${isPosSimple ? "VERDADERO (V)" : "FALSO (F)"}</strong>
+              </div>
+              <div class="branches">
+                <div class="node \${isPosSimple ? "hit-ok" : ""}">
+                  <strong>V:</strong> "es positivo"
+                </div>
+                <div class="node \${!isPosSimple ? (n === 0 ? "hit-bad" : "hit-warn") : ""}">
+                  <strong>F:</strong> "es negativo" \${n === 0 ? "⚠️" : ""}
+                </div>
+              </div>
+            </div>
+
+            <div class="flow-panel">
+              <div class="flow-panel-title">
+                <span>2. Condicional Múltiple</span>
+                <span>Anidado</span>
+              </div>
+              <div class="node active">Leer <code>num1</code> → <strong>\${n}</strong></div>
+              <div class="arrow-down">↓</div>
+              <div class="node \${multiBranch === "POS" ? "hit-ok" : "hit-warn"}">
+                ¿<code>\${n} &gt; 0</code>? → <strong>\${n > 0 ? "V" : "F"}</strong>
+              </div>
+              <div class="branches">
+                <div class="node \${multiBranch === "POS" ? "hit-ok" : ""}">
+                  <strong>V:</strong> "es positivo"
+                </div>
+                <div class="node \${multiBranch !== "POS" ? "hit-warn" : ""}">
+                  <strong>F:</strong> ¿<code>\${n} &lt; 0</code>?
+                  <div class="arrow-down">↓</div>
+                  <div class="node \${multiBranch === "NEG" ? "hit-ok" : multiBranch === "ZERO" ? "hit-warn" : ""}">
+                    \${multiBranch === "NEG" ? 'V → "es negativo"' : multiBranch === "ZERO" ? 'F → "es cero"' : "esperando..."}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="status-banner">
+            <strong>Resultado con num1 = <code>\${n}</code>:</strong>
+            \${n === 0
+              ? 'En el condicional doble cae en <strong>"es negativo"</strong> (¡trampa!). En el condicional múltiple se identifica como <strong>cero</strong>.'
+              : n > 0
+                ? 'Se evalúa como <strong>positivo</strong>.'
+                : 'En este caso negativo da falso en <code>num1 &gt; 0</code>; probá con <strong>0</strong> para ver la diferencia.'}
+          </div>
+        \`;
+      }
+
+      function renderCyclingChallenge(ctrl: HTMLElement, vis: HTMLElement): void {
+        const age = state.ageInput;
+        const res = classifyCycling(age);
+        const isJunior = age > 12 && age < 18;
+        const isElite = age >= 19 && age <= 30;
+        const isMaster = age > 30;
+
+        ctrl.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">VOTACIÓN EN CURSO</span>
+            <button type="button" class="chip" id="resetVotesBtn">Reiniciar votos</button>
+          </div>
+          <p class="prompt-question">¿Qué categoría le corresponde a esta edad?</p>
+          \${renderVotesHtml(state.ageVotes, "age")}
+
+          <div class="control-group">
+            <label class="control-label" for="ageNumInput">Edad del corredor</label>
+            <div class="input-row">
+              <input type="number" id="ageNumInput" value="\${age}" min="0" max="110" />
+              <button type="button" class="btn" id="evalAgeBtn">Clasificar</button>
+            </div>
+            <div class="quick-chips">
+              <button type="button" class="chip" data-set-age="12">12</button>
+              <button type="button" class="chip" data-set-age="15">15</button>
+              <button type="button" class="chip" data-set-age="18">18</button>
+              <button type="button" class="chip" data-set-age="24">24</button>
+              <button type="button" class="chip" data-set-age="30">30</button>
+              <button type="button" class="chip" data-set-age="42">42</button>
+            </div>
+          </div>
+
+          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
+            <strong>Pista docente:</strong> Fijate en los límites: <em>mayor a 12 y menor a 18</em> deja afuera el 18 si no se aclara qué pasa en los bordes. ¡Buen momento para acordar reglas en el diagrama!
+          </div>
+        \`;
+
+        vis.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">ÁRBOL DE DECISIÓN</span>
+            <span class="pill">Edad: \${age} años</span>
+          </div>
+
+          <div class="flow-panel">
+            <div class="node active">1. Leer <code>nombre</code> y <code>edad = \${age}</code></div>
+            <div class="arrow-down">↓</div>
+            <div class="node \${isJunior ? "hit-ok" : ""}">
+              2. ¿<code>edad &gt; 12</code> Y <code>edad &lt; 18</code>? → <strong>\${isJunior ? "V (Junior)" : "F"}</strong>
+            </div>
+            <div class="arrow-down">↓ (si es F)</div>
+            <div class="node \${isElite ? "hit-ok" : ""}">
+              3. ¿<code>edad &gt;= 19</code> Y <code>edad &lt;= 30</code>? → <strong>\${isElite ? "V (Élite)" : "F"}</strong>
+            </div>
+            <div class="arrow-down">↓ (si es F)</div>
+            <div class="node \${isMaster ? "hit-ok" : res.tone === "warn" ? "hit-warn" : ""}">
+              4. ¿<code>edad &gt; 30</code>? → <strong>\${isMaster ? "V (Master)" : "F (Revisar borde)"}</strong>
+            </div>
+          </div>
+
+          <div class="status-banner">
+            <strong>Diagnóstico (\${age} años):</strong> <strong>\${res.category}</strong>. \${res.detail}
+          </div>
+        \`;
+      }
+
+      function renderSumLoopChallenge(ctrl: HTMLElement, vis: HTMLElement): void {
+        const steps = state.sumSteps;
+        const cur = state.sumCursor;
+        const activeStep = cur >= 0 && cur < steps.length ? steps[cur] : null;
+        const finished = cur >= steps.length;
+        const currentCont = activeStep ? activeStep.cont : cur === -1 ? 0 : state.sumN;
+        const currentSum = activeStep ? activeStep.nextSum : finished && steps.length > 0 ? steps[steps.length - 1].nextSum : 0;
+
+        ctrl.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">CONTROL DEL BUCLE</span>
+            <span class="pill">Suma 1..N</span>
+          </div>
+          <p class="prompt-question">Elegí N y preguntá cuánto vale <code>cont</code> y cuánto suma antes de cada vuelta.</p>
+
+          <div class="control-group" style="border-top:none; padding-top:0; margin-top:0;">
+            <label class="control-label" for="sumNInput">Límite N (1 a 15)</label>
+            <div class="input-row">
+              <input type="number" id="sumNInput" value="\${state.sumN}" min="1" max="15" />
+              <button type="button" class="btn secondary" id="applySumNBtn">Aplicar N</button>
+            </div>
+            <div class="quick-chips">
+              <button type="button" class="chip" data-set-sum-n="4">N = 4</button>
+              <button type="button" class="chip" data-set-sum-n="5">N = 5</button>
+              <button type="button" class="chip" data-set-sum-n="10">N = 10 (clase)</button>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button type="button" class="btn" id="stepSumBtn">Siguiente iteración →</button>
+            <button type="button" class="btn accent" id="autoSumBtn">\${state.sumAuto ? "Pausar" : "Auto-reproducir"}</button>
+            <button type="button" class="btn secondary" id="resetSumBtn">Reiniciar</button>
+          </div>
+
+          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
+            <strong>Pista docente:</strong> En la consigna de 1 a 10, el bucle hace 10 iteraciones finitas y termina con <code>55</code>. Recordá que un algoritmo debe detenerse en un tiempo finito e informar el resultado.
+          </div>
+        \`;
+
+        const rowsHtml = steps.map((s, idx) => {
+          const isCurrent = idx === cur;
+          const isDone = idx < cur || finished;
+          return \`
+            <tr class="\${isCurrent ? "current-row" : ""}">
+              <td>\${s.iter}</td>
+              <td><code>cont = \${s.cont}</code></td>
+              <td><code>\${s.prevSum} + \${s.cont}</code></td>
+              <td><strong>\${isDone ? s.nextSum : "·"}</strong></td>
+            </tr>
+          \`;
+        }).join("");
+
+        vis.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">SEGUIMIENTO DE VARIABLES</span>
+            <span class="pill">
+              \${cur === -1 ? "Inicio (suma = 0)" : finished ? "Finalizado" : \`Iteración \${cur + 1} de \${steps.length}\`}
+            </span>
+          </div>
+
+          <div class="vars-strip">
+            <div class="var-box">
+              <div class="var-label">CONTADOR (cont)</div>
+              <div class="var-val">\${currentCont}</div>
+            </div>
+            <div class="var-box">
+              <div class="var-label">SUMA ACUMULADA</div>
+              <div class="var-val">\${currentSum}</div>
+            </div>
+            <div class="var-box">
+              <div class="var-label">RANGO PARA</div>
+              <div class="var-val">\${finished ? "FIN" : \`1..\${state.sumN}\`}</div>
+            </div>
+          </div>
+
+          <div class="status-banner">
+            \${cur === -1
+              ? \`Listo para comenzar <code>Para cont ← 1 Hasta \${state.sumN}</code> con <code>suma = 0</code>.\`
+              : finished
+                ? \`Bucle completado en \${steps.length} iteraciones. Resultado informado: <strong>\${currentSum}</strong>.\`
+                : \`Iteración <strong>#\${activeStep!.iter}</strong>: <code>\${activeStep!.prevSum} + \${activeStep!.cont} = <strong>\${activeStep!.nextSum}</strong></code>.\`}
+          </div>
+
+          <div class="trace-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Iteración</th>
+                  <th>Contador</th>
+                  <th>Cálculo</th>
+                  <th>Acumulado</th>
+                </tr>
+              </thead>
+              <tbody>\${rowsHtml}</tbody>
+            </table>
+          </div>
+        \`;
+      }
+
+      function renderMultLoopChallenge(ctrl: HTMLElement, vis: HTMLElement): void {
+        const steps = state.multSteps;
+        const cur = state.multCursor;
+        const activeStep = cur >= 0 && cur < steps.length ? steps[cur] : null;
+        const finished = cur >= steps.length;
+        const currentCont = activeStep ? activeStep.cont : cur === -1 ? 0 : 10;
+
+        ctrl.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">CONTROL DE TABLA</span>
+            <span class="pill">cont: 0 → 10</span>
+          </div>
+          <p class="prompt-question">Elegí un número <code>a</code> y avanzá vuelta por vuelta desde <code>0</code> hasta <code>10</code>.</p>
+
+          <div class="control-group" style="border-top:none; padding-top:0; margin-top:0;">
+            <label class="control-label" for="multAInput">Número ingresado (a)</label>
+            <div class="input-row">
+              <input type="number" id="multAInput" value="\${state.multA}" step="1" />
+              <button type="button" class="btn secondary" id="applyMultABtn">Aplicar a</button>
+            </div>
+            <div class="quick-chips">
+              <button type="button" class="chip" data-set-a="3">a = 3</button>
+              <button type="button" class="chip" data-set-a="7">a = 7</button>
+              <button type="button" class="chip" data-set-a="9">a = 9</button>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button type="button" class="btn" id="stepMultBtn">Siguiente vuelta →</button>
+            <button type="button" class="btn accent" id="autoMultBtn">\${state.multAuto ? "Pausar" : "Auto-reproducir"}</button>
+            <button type="button" class="btn secondary" id="resetMultBtn">Reiniciar</button>
+          </div>
+
+          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
+            <strong>Pista docente:</strong> Fijate que el contador empieza en <strong>0</strong> y termina en <strong>10</strong> (son 11 iteraciones en total). El número <code>a</code> no cambia, lo que cambia en cada vuelta es <code>cont</code>.
+          </div>
+        \`;
+
+        const rowsHtml = steps.map((s, idx) => {
+          const isCurrent = idx === cur;
+          const isDone = idx < cur || finished;
+          return \`
+            <tr class="\${isCurrent ? "current-row" : ""}">
+              <td>\${s.iter}</td>
+              <td><code>cont = \${s.cont}</code></td>
+              <td><code>\${isDone ? s.lineText : \`\${s.a} x \${s.cont} = ?\`}</code></td>
+              <td><strong>\${isDone ? s.product : "·"}</strong></td>
+            </tr>
+          \`;
+        }).join("");
+
+        vis.innerHTML = \`
+          <div class="card-header">
+            <span class="pill">SALIDA EN PANTALLA</span>
+            <span class="pill">
+              \${cur === -1 ? "Sin iniciar" : finished ? "Tabla completa (0 a 10)" : \`Vuelta \${cur + 1} de 11\`}
+            </span>
+          </div>
+
+          <div class="vars-strip">
+            <div class="var-box">
+              <div class="var-label">VARIABLE (a)</div>
+              <div class="var-val">\${state.multA}</div>
+            </div>
+            <div class="var-box">
+              <div class="var-label">CONTADOR (cont)</div>
+              <div class="var-val">\${currentCont}</div>
+            </div>
+            <div class="var-box">
+              <div class="var-label">RESULTADO</div>
+              <div class="var-val">\${activeStep ? activeStep.product : finished ? state.multA * 10 : "—"}</div>
+            </div>
+          </div>
+
+          <div class="status-banner">
+            \${cur === -1
+              ? \`Tabla de multiplicar de <strong>a = \${state.multA}</strong>: <code>cont</code> comenzará en <strong>0</strong> hasta <strong>10</strong>.\`
+              : finished
+                ? \`Se completaron todas las vueltas de <code>0</code> a <code>10</code> para <strong>a = \${state.multA}</strong>.\`
+                : \`Imprime: <code>"\${activeStep!.lineText}"</code> (<code>\${activeStep!.a} * \${activeStep!.cont} = \${activeStep!.product}</code>).\`}
+          </div>
+
+          <div class="trace-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Iteración</th>
+                  <th>Contador</th>
+                  <th>Línea impresa</th>
+                  <th>Producto</th>
+                </tr>
+              </thead>
+              <tbody>\${rowsHtml}</tbody>
+            </table>
+          </div>
+        \`;
+      }
+
+      function render(): void {
+        document.querySelectorAll<HTMLButtonElement>(".tab-btn").forEach((btn) => {
+          const tab = btn.dataset.tab as TabId;
+          const isActive = tab === state.activeTab;
+          btn.classList.toggle("active", isActive);
+          btn.setAttribute("aria-selected", String(isActive));
+        });
+
+        renderConsigna();
+
+        const controlPanel = document.getElementById("controlPanel")!;
+        const visualPanel = document.getElementById("visualPanel")!;
+
+        if (state.activeTab === "zero") {
+          renderZeroChallenge(controlPanel, visualPanel);
+        } else if (state.activeTab === "cycling") {
+          renderCyclingChallenge(controlPanel, visualPanel);
+        } else if (state.activeTab === "sumLoop") {
+          renderSumLoopChallenge(controlPanel, visualPanel);
+        } else {
+          renderMultLoopChallenge(controlPanel, visualPanel);
+        }
+
+        bindEvents();
+      }
+
+      function bindEvents(): void {
+        document.querySelectorAll<HTMLButtonElement>("[data-vote-group]").forEach((btn) => {
+          btn.onclick = () => {
+            const group = btn.dataset.voteGroup;
+            const id = btn.dataset.voteId;
+            const list = group === "zero" ? state.zeroVotes : state.ageVotes;
+            const target = list.find((item) => item.id === id);
+            if (target) {
+              target.votes += 1;
+              render();
+            }
+          };
+        });
+
+        const resetVotes = document.getElementById("resetVotesBtn");
+        if (resetVotes) {
+          resetVotes.onclick = () => {
+            state.zeroVotes.forEach((v) => (v.votes = 0));
+            state.ageVotes.forEach((v) => (v.votes = 0));
+            render();
+          };
+        }
+
+        const zeroInput = document.getElementById("zeroNumInput") as HTMLInputElement | null;
+        const evalZero = document.getElementById("evalZeroBtn");
+        if (zeroInput && evalZero) {
+          evalZero.onclick = () => {
+            state.zeroInput = Number(zeroInput.value || 0);
+            render();
+          };
+        }
+        document.querySelectorAll<HTMLButtonElement>("[data-set-zero]").forEach((chip) => {
+          chip.onclick = () => {
+            state.zeroInput = Number(chip.dataset.setZero || 0);
+            render();
+          };
+        });
+
+        const ageInput = document.getElementById("ageNumInput") as HTMLInputElement | null;
+        const evalAge = document.getElementById("evalAgeBtn");
+        if (ageInput && evalAge) {
+          evalAge.onclick = () => {
+            state.ageInput = Number(ageInput.value || 0);
+            render();
+          };
+        }
+        document.querySelectorAll<HTMLButtonElement>("[data-set-age]").forEach((chip) => {
+          chip.onclick = () => {
+            state.ageInput = Number(chip.dataset.setAge || 0);
+            render();
+          };
+        });
+
+        const sumNInput = document.getElementById("sumNInput") as HTMLInputElement | null;
+        const applySumNBtn = document.getElementById("applySumNBtn");
+        if (sumNInput && applySumNBtn) {
+          applySumNBtn.onclick = () => {
+            resetSum(Number(sumNInput.value || 5));
+            render();
+          };
+        }
+        document.querySelectorAll<HTMLButtonElement>("[data-set-sum-n]").forEach((chip) => {
+          chip.onclick = () => {
+            resetSum(Number(chip.dataset.setSumN || 5));
+            render();
+          };
+        });
+
+        const stepSumBtn = document.getElementById("stepSumBtn");
+        if (stepSumBtn) {
+          stepSumBtn.onclick = () => {
+            stopTimers();
+            if (state.sumCursor < state.sumSteps.length) {
+              state.sumCursor += 1;
+            }
+            render();
+          };
+        }
+
+        const autoSumBtn = document.getElementById("autoSumBtn");
+        if (autoSumBtn) {
+          autoSumBtn.onclick = () => {
+            if (state.sumAuto) {
+              stopTimers();
+              render();
+              return;
+            }
+            if (state.sumCursor >= state.sumSteps.length) {
+              state.sumCursor = -1;
+            }
+            state.sumAuto = true;
+            timerId = window.setInterval(() => {
+              if (state.sumCursor < state.sumSteps.length) {
+                state.sumCursor += 1;
+                render();
+              } else {
+                stopTimers();
+                render();
+              }
+            }, 800);
+            render();
+          };
+        }
+
+        const resetSumBtn = document.getElementById("resetSumBtn");
+        if (resetSumBtn) {
+          resetSumBtn.onclick = () => {
+            resetSum(state.sumN);
+            render();
+          };
+        }
+
+        const multAInput = document.getElementById("multAInput") as HTMLInputElement | null;
+        const applyMultABtn = document.getElementById("applyMultABtn");
+        if (multAInput && applyMultABtn) {
+          applyMultABtn.onclick = () => {
+            resetMult(Number(multAInput.value || 7));
+            render();
+          };
+        }
+        document.querySelectorAll<HTMLButtonElement>("[data-set-a]").forEach((chip) => {
+          chip.onclick = () => {
+            resetMult(Number(chip.dataset.setA || 7));
+            render();
+          };
+        });
+
+        const stepMultBtn = document.getElementById("stepMultBtn");
+        if (stepMultBtn) {
+          stepMultBtn.onclick = () => {
+            stopTimers();
+            if (state.multCursor < state.multSteps.length) {
+              state.multCursor += 1;
+            }
+            render();
+          };
+        }
+
+        const autoMultBtn = document.getElementById("autoMultBtn");
+        if (autoMultBtn) {
+          autoMultBtn.onclick = () => {
+            if (state.multAuto) {
+              stopTimers();
+              render();
+              return;
+            }
+            if (state.multCursor >= state.multSteps.length) {
+              state.multCursor = -1;
+            }
+            state.multAuto = true;
+            timerId = window.setInterval(() => {
+              if (state.multCursor < state.multSteps.length) {
+                state.multCursor += 1;
+                render();
+              } else {
+                stopTimers();
+                render();
+              }
+            }, 650);
+            render();
+          };
+        }
+
+        const resetMultBtn = document.getElementById("resetMultBtn");
+        if (resetMultBtn) {
+          resetMultBtn.onclick = () => {
+            resetMult(state.multA);
+            render();
+          };
+        }
+      }
+
+      document.querySelectorAll<HTMLButtonElement>(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          stopTimers();
+          state.activeTab = (btn.dataset.tab as TabId) || "zero";
+          render();
+        });
+      });
+
+      const teacherToggle = document.getElementById("teacherToggle") as HTMLInputElement;
+      teacherToggle.addEventListener("change", () => {
+        state.teacherMode = teacherToggle.checked;
+        render();
+      });
+
+      render();
+    `;
+
+    const transpiled = ts.transpileModule(tsCode, {
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        module: ts.ModuleKind.ESNext
+      }
+    });
+
+    const scriptEl = document.createElement("script");
+    scriptEl.type = "module";
+    scriptEl.textContent = transpiled.outputText;
+    document.body.appendChild(scriptEl);
+  </script>
+</body>
+</html>
