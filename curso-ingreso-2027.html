@@ -82,26 +82,6 @@
       font-style: italic;
     }
 
-    .mode-switch {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--surface);
-      border: 2px solid var(--line);
-      box-shadow: var(--shadow-sm);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .mode-switch input {
-      accent-color: var(--ink);
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
     .tabs {
       max-width: 1240px;
       margin: 18px auto 0;
@@ -494,21 +474,6 @@
       line-height: 1.45;
     }
 
-    .teacher-note {
-      margin-top: 12px;
-      border: 2px dashed var(--line);
-      border-radius: 12px;
-      padding: 12px;
-      background: var(--pastel-yellow);
-      font-size: 13px;
-      line-height: 1.45;
-      display: none;
-    }
-
-    .teacher-note.visible {
-      display: block;
-    }
-
     .vars-strip {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -576,10 +541,6 @@
       <span class="brand-badge">CLASE 2 · INGRESO</span>
       <h1>Decisiones &amp; <em>Bucles</em> en Vivo</h1>
     </div>
-    <label class="mode-switch">
-      <input type="checkbox" id="teacherToggle" />
-      <span>Modo docente (pistas y trampas)</span>
-    </label>
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Desafíos interactivos de la clase">
@@ -643,7 +604,6 @@
 
       interface AppState {
         activeTab: TabId;
-        teacherMode: boolean;
         zeroInput: number;
         zeroVotes: VoteOption[];
         ageInput: number;
@@ -660,7 +620,6 @@
 
       const state: AppState = {
         activeTab: "zero",
-        teacherMode: false,
         zeroInput: 0,
         zeroVotes: [
           { id: "A", label: "Dice 'es positivo'", votes: 0 },
@@ -860,10 +819,6 @@
               <button type="button" class="chip" data-set-zero="-5">Probar -5</button>
             </div>
           </div>
-
-          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
-            <strong>Pista docente:</strong> Con <code>num1 &gt; 0</code>, el <code>0</code> da <strong>Falso</strong> y entra por el lado falso como si fuera negativo. Un <strong>condicional múltiple</strong> separa claramente <code>&gt; 0</code>, <code>&lt; 0</code> y <code>= 0</code>.
-          </div>
         \`;
 
         vis.innerHTML = \`
@@ -959,10 +914,6 @@
               <button type="button" class="chip" data-set-age="42">42</button>
             </div>
           </div>
-
-          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
-            <strong>Pista docente:</strong> Fijate en los límites: <em>mayor a 12 y menor a 18</em> deja afuera el 18 si no se aclara qué pasa en los bordes. ¡Buen momento para acordar reglas en el diagrama!
-          </div>
         \`;
 
         vis.innerHTML = \`
@@ -1025,10 +976,6 @@
             <button type="button" class="btn" id="stepSumBtn">Siguiente iteración →</button>
             <button type="button" class="btn accent" id="autoSumBtn">\${state.sumAuto ? "Pausar" : "Auto-reproducir"}</button>
             <button type="button" class="btn secondary" id="resetSumBtn">Reiniciar</button>
-          </div>
-
-          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
-            <strong>Pista docente:</strong> En la consigna de 1 a 10, el bucle hace 10 iteraciones finitas y termina con <code>55</code>. Recordá que un algoritmo debe detenerse en un tiempo finito e informar el resultado.
           </div>
         \`;
 
@@ -1123,10 +1070,6 @@
             <button type="button" class="btn" id="stepMultBtn">Siguiente vuelta →</button>
             <button type="button" class="btn accent" id="autoMultBtn">\${state.multAuto ? "Pausar" : "Auto-reproducir"}</button>
             <button type="button" class="btn secondary" id="resetMultBtn">Reiniciar</button>
-          </div>
-
-          <div class="teacher-note \${state.teacherMode ? "visible" : ""}">
-            <strong>Pista docente:</strong> Fijate que el contador empieza en <strong>0</strong> y termina en <strong>10</strong> (son 11 iteraciones en total). El número <code>a</code> no cambia, lo que cambia en cada vuelta es <code>cont</code>.
           </div>
         \`;
 
@@ -1394,12 +1337,6 @@
           state.activeTab = (btn.dataset.tab as TabId) || "zero";
           render();
         });
-      });
-
-      const teacherToggle = document.getElementById("teacherToggle") as HTMLInputElement;
-      teacherToggle.addEventListener("change", () => {
-        state.teacherMode = teacherToggle.checked;
-        render();
       });
 
       render();
